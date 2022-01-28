@@ -7,7 +7,6 @@ import { router as user } from "./user";
 import { router as restaurant } from "./restaurant";
 
 router.use("/restaurant", restaurant);
-// router.use("/dish", dish);
 router.use("/search", search);
 router.use("/cart", cart);
 router.use("/user", user);

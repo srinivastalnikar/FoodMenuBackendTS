@@ -18,6 +18,7 @@ router.get("/getFavRes/:userId", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+    //get Promoted Restaurants
     const result: RestaurantResponse = await executeQuery(sql.getPromotedRes);
     res.send(result);
 });

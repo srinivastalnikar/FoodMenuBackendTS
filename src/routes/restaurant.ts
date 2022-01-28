@@ -37,18 +37,21 @@ router.delete("/removeResFromFav/:userId/:resId", async (req, res) => {
 });
 
 router.get("/getDishes/:resId", async (req, res) => {
+    //get Dishes For Restaurant
     const resId = parseInt(req.params.resId);
     const result = await executeQuery(sql.getAllDishes(resId));
     res.send(result);
 });
 
 router.get("/getResName/:resId", async (req, res) => {
+    //get Restaurant Name
     const resId = parseInt(req.params.resId);
     const result = await executeQuery(sql.getIdNameMap(resId));
     res.send(result);
 });
 
 router.get("/:resId", async (req, res) => {
+    //get Restaurant Details
     const resId = parseInt(req.params.resId);
     const result = await executeQuery(sql.getResDetails(resId));
     res.send(result);

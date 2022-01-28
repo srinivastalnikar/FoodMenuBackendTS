@@ -24,6 +24,7 @@ router.post("/decreaseQuantityInCart/:orderId", async (req: Request, res) => {
 });
 
 router.get("/getOrderItemDetail/:userId/:orderItemId", async (req: Request, res) => {
+    //get order item details along with their addons given the order item id
     const userId = parseInt(req.params.userId);
     const orderItemId = parseInt(req.params.orderItemId);
     const orderItemDetails: CartResponse = await executeQuery(
@@ -32,11 +33,13 @@ router.get("/getOrderItemDetail/:userId/:orderItemId", async (req: Request, res)
     const addonsForOrderItems: AddonResponse = await executeQuery(
         sql.getAddonsForOrderItem(orderItemId)
     );
+    //orderItemDetails.data will be an array of single element since only one row of detail would be returned
     orderItemDetails.data[0].addons = addonsForOrderItems.data;
     res.send(orderItemDetails);
 });
 
 router.get("/:userId", async (req: Request, res) => {
+    //fetch all order items in cart with their addon details
     const userId = parseInt(req.params.userId);
     const allItemsInCart: CartResponse = await executeQuery(sql.getAllItemsInCart(userId));
     const cartItems = await Promise.all(
@@ -44,6 +47,7 @@ router.get("/:userId", async (req: Request, res) => {
             const addonsForOrderItem: AddonResponse = await executeQuery(
                 sql.getAddonsForOrderItem(orderItem.order_id)
             );
+            //assign the addons to the addons property of OrderItem
             orderItem.addons = addonsForOrderItem.data;
             return orderItem;
         })
