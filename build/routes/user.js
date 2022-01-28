@@ -35,19 +35,24 @@ exports.router = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 exports.router = router;
-const sql = __importStar(require("../model/home"));
+const sql = __importStar(require("../model/user"));
 const dbService_1 = __importDefault(require("../dbService"));
-router.get("/getCategories", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, dbService_1.default)(sql.getCategories);
+router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    const result = yield (0, dbService_1.default)(sql.checkUser(username, password));
     res.send(result);
 }));
-router.get("/getFavRes/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId: userIdStr } = req.params;
-    const userId = parseInt(userIdStr, 10);
-    const result = yield (0, dbService_1.default)(sql.getFavRes(userId));
-    res.send(result);
-}));
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, dbService_1.default)(sql.getPromotedRes);
-    res.send(result);
+router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    const exists = yield (0, dbService_1.default)(sql.checkIfExist(username));
+    if (exists.data.length) {
+        const userIdAlreadyRegistered = {
+            success: false,
+            data: "USERNAME_ALREADY_EXIST",
+        };
+        res.send(userIdAlreadyRegistered);
+        return;
+    }
+    const userRegistered = yield (0, dbService_1.default)(sql.addUser(username, password));
+    res.send(userRegistered);
 }));

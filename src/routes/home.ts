@@ -1,22 +1,25 @@
+import { CategoriesResponse } from "./../config/Categories";
+import { RestaurantResponse } from "./../config/Restaurant";
 import { Router } from "express";
-const homeRoute = Router();
-const sql = require("../model/home.js");
-const { executeQuery } = require("../dbService");
+const router = Router();
+import * as sql from "../model/home";
+import executeQuery from "../dbService";
 
-homeRoute.get("/getCategories", async (req, res) => {
-    const result = await executeQuery(sql.getCategories);
+router.get("/getCategories", async (req, res) => {
+    const result: CategoriesResponse = await executeQuery(sql.getCategories);
     res.send(result);
 });
 
-homeRoute.get("/getFavRes/:userId", async (req, res) => {
-    const { userId } = req.params;
-    const result = await executeQuery(sql.getFavRes(userId));
+router.get("/getFavRes/:userId", async (req, res) => {
+    const { userId: userIdStr } = req.params;
+    const userId = parseInt(userIdStr, 10);
+    const result: RestaurantResponse = await executeQuery(sql.getFavRes(userId));
     res.send(result);
 });
 
-homeRoute.get("/", async (req, res) => {
-    const result = await executeQuery(sql.getPromotedRes);
+router.get("/", async (req, res) => {
+    const result: RestaurantResponse = await executeQuery(sql.getPromotedRes);
     res.send(result);
 });
 
-export { homeRoute };
+export { router };

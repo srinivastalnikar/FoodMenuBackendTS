@@ -1,28 +1,22 @@
-const checkIfExist = (name) => {
-    return (
-        `
+const checkIfExist = (name: string) => {
+    return `
         select * from user
         where name = "${name}"
-        `
-    )
-}
+        `;
+};
 
-const checkUser = (name, password) => {
-    return (
-        `
+const checkUser = (name: string, password: string) => {
+    return `
         select * from user
         where name = "${name}" and password = "${password}"
-        `
-    )
-}
+        `;
+};
 
-const addUser = (name, password) => {
-    return (
-        `
+const addUser = (name: string, password: string) => {
+    return `
         insert into user(name, password)
         values ("${name}", "${password}")
-        `
-    )
-}
+        `;
+};
 
-module.exports = {checkUser, addUser, checkIfExist}
+export { checkUser, addUser, checkIfExist };

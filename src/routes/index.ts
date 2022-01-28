@@ -1,18 +1,16 @@
 import { Router } from "express";
 const router = Router();
-import { homeRoute } from "./home";
-// const home = require("./home");
-// const search = require("./search");
-// const restaurant = require("./restaurant");
-// const dish = require("./dish");
-// const cart = require("./cart");
-// const user = require("./user");
+import { router as home } from "./home";
+import { router as cart } from "./cart";
+import { router as search } from "./search";
+import { router as user } from "./user";
+import { router as restaurant } from "./restaurant";
 
-// router.use("/restaurant", restaurant);
+router.use("/restaurant", restaurant);
 // router.use("/dish", dish);
-// router.use("/search", search);
-// router.use("/cart", cart);
-// router.use("/user", user);
-router.use("/", homeRoute);
+router.use("/search", search);
+router.use("/cart", cart);
+router.use("/user", user);
+router.use("/", home);
 
 export { router };

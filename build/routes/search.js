@@ -35,19 +35,28 @@ exports.router = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 exports.router = router;
-const sql = __importStar(require("../model/home"));
+const sql = __importStar(require("../model/search"));
 const dbService_1 = __importDefault(require("../dbService"));
-router.get("/getCategories", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, dbService_1.default)(sql.getCategories);
-    res.send(result);
-}));
-router.get("/getFavRes/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId: userIdStr } = req.params;
-    const userId = parseInt(userIdStr, 10);
-    const result = yield (0, dbService_1.default)(sql.getFavRes(userId));
-    res.send(result);
-}));
-router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, dbService_1.default)(sql.getPromotedRes);
+router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { dishName, resName, cuisine, dishDesc, dishCat } = req.body;
+    let result;
+    if (typeof dishName !== "undefined") {
+        result = yield (0, dbService_1.default)(sql.getDishByName(dishName));
+    }
+    else if (typeof resName !== "undefined") {
+        result = yield (0, dbService_1.default)(sql.getResByName(resName));
+    }
+    else if (typeof cuisine !== "undefined") {
+        result = yield (0, dbService_1.default)(sql.getDishByCuisine(cuisine));
+    }
+    else if (typeof dishDesc !== "undefined") {
+        result = yield (0, dbService_1.default)(sql.getDishByDesc(dishDesc));
+    }
+    else if (typeof dishCat !== "undefined") {
+        result = yield (0, dbService_1.default)(sql.getDishByCategory(dishCat));
+    }
+    else {
+        result = yield (0, dbService_1.default)(sql.getAllDishes);
+    }
     res.send(result);
 }));

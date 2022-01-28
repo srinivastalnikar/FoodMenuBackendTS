@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getIdNameMap = exports.removeResFromFav = exports.addResToFav = exports.getResDetails = exports.getAllDishes = exports.getDishByCuisine = exports.getDishByDesc = exports.getDishByCategory = exports.getDishByName = void 0;
 const getAllDishes = (resId) => {
     const query = `
 select dish.* from dish
@@ -6,6 +8,7 @@ inner join restaurant on dish.restaurant_id = ${resId} and dish.restaurant_id = 
 `;
     return query;
 };
+exports.getAllDishes = getAllDishes;
 const getDishByName = (resId, name) => {
     const query = `
     select dish.* from dish
@@ -15,6 +18,7 @@ const getDishByName = (resId, name) => {
     `;
     return query;
 };
+exports.getDishByName = getDishByName;
 const getDishByDesc = (resId, desc) => {
     const query = `
 select dish.* from dish
@@ -24,6 +28,7 @@ limit 10
 `;
     return query;
 };
+exports.getDishByDesc = getDishByDesc;
 const getDishByCuisine = (resId, cuisine) => {
     const query = `
 select dish.* from dish
@@ -33,6 +38,7 @@ limit 10
 `;
     return query;
 };
+exports.getDishByCuisine = getDishByCuisine;
 const getDishByCategory = (resId, category) => {
     const query = `
 select distinct(dish.id) as uniqueIds, dish.* from categories
@@ -45,17 +51,20 @@ limit 10
 `;
     return query;
 };
+exports.getDishByCategory = getDishByCategory;
 const addResToFav = (userId, resId) => {
-    return (`
+    return `
         insert into fav (restaurant_id, user_id) values (${resId}, ${userId});
-        `);
+        `;
 };
+exports.addResToFav = addResToFav;
 const removeResFromFav = (userId, resId) => {
-    return (`
+    return `
         delete from fav
         where restaurant_id = ${resId} and user_id = ${userId}
-        `);
+        `;
 };
+exports.removeResFromFav = removeResFromFav;
 const getResDetails = (resId) => {
     const query = `
     select restaurant.* from restaurant
@@ -63,16 +72,11 @@ const getResDetails = (resId) => {
     `;
     return query;
 };
-const getCategoriesForRestaurant = (resId) => {
-    const query = `
-    select categories.name from categories
-    inner join restaurant
-    `;
-};
+exports.getResDetails = getResDetails;
 const getIdNameMap = (resId) => {
-    return (`
+    return `
         select name from restaurant
         where id = ${resId}
-        `);
+        `;
 };
-module.exports = { getDishByName, getDishByCategory, getDishByDesc, getDishByCuisine, getAllDishes, getResDetails, addResToFav, removeResFromFav, getIdNameMap };
+exports.getIdNameMap = getIdNameMap;

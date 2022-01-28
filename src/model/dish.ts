@@ -43,7 +43,7 @@ const increaseQuantityInCart = (orderId: number) => {
     `;
 };
 
-module.exports = {
+export {
     getDishDetails,
     getAddonsForDish,
     addDishToCart,
