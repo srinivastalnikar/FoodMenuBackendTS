@@ -8,3 +8,8 @@ interface UserDetails {
     username: string;
     password: string;
 }
+
+export interface UserResponse {
+    success: boolean;
+    data: UserDetails[];
+}

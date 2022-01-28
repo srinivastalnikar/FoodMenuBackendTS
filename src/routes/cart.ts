@@ -40,12 +40,12 @@ router.get("/:userId", async (req: Request, res) => {
     const userId = parseInt(req.params.userId);
     const allItemsInCart: CartResponse = await executeQuery(sql.getAllItemsInCart(userId));
     const cartItems = await Promise.all(
-        allItemsInCart.data.map(async (item: CartItem) => {
+        allItemsInCart.data.map(async (orderItem: CartItem) => {
             const addonsForOrderItem: AddonResponse = await executeQuery(
-                sql.getAddonsForOrderItem(item.order_id)
+                sql.getAddonsForOrderItem(orderItem.order_id)
             );
-            item.addons = addonsForOrderItem.data;
-            return item;
+            orderItem.addons = addonsForOrderItem.data;
+            return orderItem;
         })
     );
     const result: CartResponse = { success: true, data: cartItems };
